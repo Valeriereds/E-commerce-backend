@@ -13,8 +13,6 @@ router.get('/', async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-  // find all products
-  // be sure to include its associated Category and Tag data
 });
 
 // get one product
@@ -31,19 +29,10 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-  // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
 });
 
+// create new product
 router.post('/', (req, res) => {
-  /* req.body should look like this...
-    {
-      product_name: "Basketball",
-      price: 200.00,
-      stock: 3,
-      tagIds: [1, 2, 3, 4]
-    }
-  */
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
@@ -65,54 +54,6 @@ router.post('/', (req, res) => {
       res.status(400).json(err);
     });
 });
-// create new product
-// router.post('/', async (req, res) => {
-//   try{
-//     const proData = await Product.create({
-//       product_name: req.body.product_name,
-//       price: req.body.price,
-//       stock: req.body.stock,
-//       category_id: req.body.category_id,
-//       tagIds: req.body.tagIds 
-//     })
-//     if (req.body.tagIds.length) {
-//         const productTagIdArr = req.body.tagIds.map((tag_id) => {
-//           return {
-//             product_id: proData.id,
-//             tag_id,
-//           };
-//         });
-//         return ProductTag.bulkCreate(productTagIdArr);
-//       }
-//       .then((productTagIds) => res.status(200).json(productTagIds))
-//       // if no product tags, just respond
-//       res.status(200).json(proData);
-// } catch {err} {
-//   res.status(500).json(err);
-// }
-
-// }
-
-
-
- 
- 
- 
-  /* req.body should look like this...
-    {
-      product_name: "Basketball",
-      price: 200.00,
-      stock: 3,
-      tagIds: [1, 2, 3, 4]
-    }
-  */
-  
-    // if there's product tags, we need to create pairings to bulk create in the ProductTag model
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(400).json(err);
-//     });
-// });
 
 // update product
 router.put('/:id', (req, res) => {
@@ -159,6 +100,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
+// delete one product by its `id` value
 router.delete('/:id', async (req, res) => {
   try{
     const proData = await Product.destroy({
@@ -174,7 +116,6 @@ router.delete('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-  // delete one product by its `id` value
 });
 
 module.exports = router;
